@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,12 +61,7 @@ public class ClienteController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<?> actualizar(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO,
-      BindingResult result) {
-    if (result.hasErrors()) {
-      return ResponseEntity.badRequest().body(result.getAllErrors());
-    }
-
+  public ResponseEntity<?> actualizar(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO) {
     Cliente clienteEncontrado = clienteService.findById(id);
     if (clienteEncontrado == null) {
       return ResponseEntity.notFound().build();

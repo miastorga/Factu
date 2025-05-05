@@ -47,7 +47,6 @@ public class ServicioController {
       return ResponseEntity.noContent().build();
     }
 
-    // Convertir cada Servicio a EntityModel con enlaces
     List<EntityModel<Servicio>> serviciosModel = servicios.stream()
         .map(servicio -> EntityModel.of(servicio,
             linkTo(methodOn(ServicioController.class).buscar(servicio.getId())).withSelfRel(),
@@ -56,7 +55,6 @@ public class ServicioController {
             linkTo(methodOn(ServicioController.class).eliminar(servicio.getId())).withRel("delete")))
         .collect(Collectors.toList());
 
-    // Crear CollectionModel con enlaces para la colección
     CollectionModel<EntityModel<Servicio>> collectionModel = CollectionModel.of(
         serviciosModel,
         linkTo(methodOn(ServicioController.class).listar()).withSelfRel());
@@ -90,7 +88,6 @@ public class ServicioController {
           linkTo(methodOn(ServicioController.class).actualizar(id, servicio)).withRel("update"),
           linkTo(methodOn(ServicioController.class).eliminar(id)).withRel("delete"));
 
-      // Agregar enlace a la factura si existe
       if (servicio.getFactura() != null) {
         entityModel.add(linkTo(methodOn(FacturaController.class).buscar(servicio.getFactura().getId()))
             .withRel("factura"));
